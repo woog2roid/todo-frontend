@@ -7,7 +7,7 @@ import './index.css';
 
 ReactDOM.render(
 	<>
-		<BrowserRouter>
+		<BrowserRouter basename="/todo-frontend/">
 			<App />
 		</BrowserRouter>
 	</>,
