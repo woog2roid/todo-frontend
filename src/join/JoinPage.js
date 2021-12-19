@@ -13,9 +13,9 @@ const CheckDetails = styled.div`
 const JoinPage = () => {
     const navigate = useNavigate();
 
-    const [id, setId] = useState();
+    const [id, setId] = useState("");
     const [password, setPassword] = useState();
-    const [nickname, setNickname] = useState();
+    const [nickname, setNickname] = useState("");
 	
     const [isIdUnique, setIsIdUnique] = useState(true);
 	const [isPwOk, setIsPwOk] = useState(false);
@@ -69,6 +69,7 @@ const JoinPage = () => {
 		e.preventDefault();
 		if(!isIdUnique) alert('아이디 중복을 확인해주십시오.');
 		else if(!isPwOk) alert('비밀번호를 확인해주십시오.');
+		else if(id === "" || nickname === "") alert('아이디와 별명을 입력하세요.');
 		else {
 			console.log('회원가입 요청');
 			await axios.post(`${process.env.REACT_APP_SERVER}/user/join`, {
