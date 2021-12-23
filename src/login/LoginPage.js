@@ -21,7 +21,7 @@ const LoginPage = () => {
 		if(id === "" || password === "") alert("아디이와 비밀번호를 입력하세요");
 		else {
 			console.log('로그인 요청');
-			await axios.post(`${process.env.REACT_APP_SERVER}/user/login`, {
+			await axios.post(`${process.env.REACT_APP_SERVER}/auth/login`, {
 					id: id,
 					password: password,
 				}, {

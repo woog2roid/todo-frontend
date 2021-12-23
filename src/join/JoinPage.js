@@ -33,7 +33,7 @@ const JoinPage = () => {
 	
 	//ID 중복 체크
 	useEffect(() => {
-		axios.post(`${process.env.REACT_APP_SERVER}/user/checkId`, {
+		axios.post(`${process.env.REACT_APP_SERVER}/auth/id`, {
 				id: id,
 			})
 			.then(() => {
@@ -53,7 +53,7 @@ const JoinPage = () => {
 	
 	//닉네임 중복 체크
 	useEffect(() => {
-		axios.post(`${process.env.REACT_APP_SERVER}/user/checkNickname`, {
+		axios.post(`${process.env.REACT_APP_SERVER}/auth/nickname`, {
 				nickname: nickname,
 			})
 			.then(() => {
