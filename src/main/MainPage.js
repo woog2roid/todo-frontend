@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -6,6 +6,7 @@ import Title from '../common/Title';
 import AddTodo from './AddTodo';
 import TodoList from './TodoList';
 import { Button, ButtonGroup } from 'reactstrap';
+import AuthContext from '../contexts/AuthContext';
 
 const FlexWrapper = styled.div`
 	display: flex;
@@ -23,8 +24,8 @@ const HeaderDetails = styled.div`
 `;
 
 const MainPage = () => {
+	const { authState } = useContext(AuthContext);
 	const navigate = useNavigate();
-	const [user, setUser] = useState("");
 	
 	const onClickLogout = async () => {
 		await axios.post(`${process.env.REACT_APP_SERVER}/auth/logout`, {}, {
@@ -40,34 +41,13 @@ const MainPage = () => {
 		navigate('/join');
 	}
 	
-    useEffect(() => {
-		const fetchUserData = async () => {
-			await axios
-				.get(`${process.env.REACT_APP_SERVER}/user`, {
-					withCredentials: true,
-					credentials: 'include',
-				})
-				.then((res) => {
-					console.log(res.data.user);
-					setUser({
-						id: res.data.user.id,
-						nickname: res.data.user.nickname,
-					});
-				})
-				.catch((err) => {
-					setUser({id: null, nickname: "방문자"});
-				});
-		}
-		fetchUserData();
-    }, []);
-
     return (
         <>
 			{
-				user.id !== null ?
+				authState.isAuthed === true ?
 				<UserHeaderWrapper>
 					<HeaderDetails onClick={onClickLogout} className="text-danger">로그아웃</HeaderDetails> 
-					<HeaderDetails>{user.nickname}님 환영합니다!</HeaderDetails>
+					<HeaderDetails>{authState.user.nickname}님 환영합니다!</HeaderDetails>
 				</UserHeaderWrapper>:
 				<VisitorHeaderWrapper>
 					<HeaderDetails onClick={onClickLogin} className="text-success">로그인</HeaderDetails>
@@ -77,7 +57,7 @@ const MainPage = () => {
 			<Title />
             <AddTodo />
             <TodoList />
-			{user.id !==  null ? "" : <HeaderDetails>로그인이 안된 상태에서는 리스트를 저장할 수 없어요!</HeaderDetails>}
+			{authState.isAuthed ===  true ? "" : <HeaderDetails>로그인이 안된 상태에서는 리스트를 저장할 수 없어요!</HeaderDetails>}
         </>
     );
 };

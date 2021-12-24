@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import AuthContext from '../contexts/AuthContext';
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import Header from '../common/Title';
 
 const LoginPage = () => {
+	const { authState } = useContext(AuthContext);
 	const navigate = useNavigate();
 
 	const [id, setId] = useState("");
@@ -39,30 +41,34 @@ const LoginPage = () => {
 		}
 	};
 	
-	return (
-		<>
-			<Header />
-			<Form onSubmit={onSubmit}>
-				<FormGroup>
-					<Label for="id">아이디</Label>
-					<Input
-						id="id"
-						onChange={onChangeId}
-						placeholder="아이디를 입력하세요"
-						type="id"
-					/>
-					<Label for="password">비밀번호</Label>
-					<Input
-						id="pssword"
-						onChange={onChangePassword}
-						placeholder="비밀번호를 입력하세요"
-						type="password"
-					/>
-				</FormGroup>
-				<Button color="primary">로그인</Button>
-			</Form>
-		</>
-	);
+	if(authState.isAuthed === true) {
+		return (<>이미 로그인이 되어있어요!</>) ;
+	} else {
+		return (
+			<>
+				<Header />
+				<Form onSubmit={onSubmit}>
+					<FormGroup>
+						<Label for="id">아이디</Label>
+						<Input
+							id="id"
+							onChange={onChangeId}
+							placeholder="아이디를 입력하세요"
+							type="id"
+						/>
+						<Label for="password">비밀번호</Label>
+						<Input
+							id="pssword"
+							onChange={onChangePassword}
+							placeholder="비밀번호를 입력하세요"
+							type="password"
+						/>
+					</FormGroup>
+					<Button color="primary">로그인</Button>
+				</Form>
+			</>
+		);
+	}
 };
 
 export default LoginPage;

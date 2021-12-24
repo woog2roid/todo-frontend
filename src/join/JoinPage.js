@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../contexts/AuthContext';
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import Header from '../common/Title';
 
@@ -11,7 +12,8 @@ const CheckDetails = styled.div`
 `
 
 const JoinPage = () => {
-    const navigate = useNavigate();
+	const { authState } = useContext(AuthContext);
+	const navigate = useNavigate();
 
     const [id, setId] = useState("");
     const [password, setPassword] = useState();
@@ -87,46 +89,50 @@ const JoinPage = () => {
 		}
     };
 
-    return (
-        <>
-            <Header />
-            <Form onSubmit={onSubmit}>
-                <FormGroup>
-                    <Label for="id">아이디</Label>
-                    <Input
-                        id="id"
-                        onChange={onChangeId}
-                        placeholder="아이디를 입력하세요"
-                        type="id"
-                    />
-                    <CheckDetails isOk={isIdUnique}>
-                        {isIdUnique ? '사용 가능한 아이디입니다.' : '이미 있는 아이디입니다.'}
-                    </CheckDetails>
-                    <Label for="password">비밀번호</Label>
-                    <Input
-                        id="password"
-                        onChange={onChangePassword}
-                        placeholder="비밀번호를 입력하세요"
-                        type="password"
-                    />
-					<CheckDetails isOk={isPwOk}>
-                        {isPwOk ? '사용 가능한 비밀번호입니다.' : '5글자 이상, 특수문자와 숫자 영문자를 모두 사용하세요.'}
-                    </CheckDetails>
-                    <Label for="nickname">별명</Label>
-                    <Input
-                        id="nickname"
-                        onChange={onChangeNickname}
-                        placeholder="별명을 입력하세요"
-                        type="nickname"
-                    />
-					<CheckDetails isOk={isNicknameUnique}>
-                        {isNicknameUnique ? '사용 가능한 별명입니다.' : '이미 있는 별명입니다.'}
-                    </CheckDetails>
-                </FormGroup>
-                <Button color="primary">회원가입</Button>
-            </Form>
-        </>
-    );
+	if(authState.isAuthed === true) {
+		return (<>이미 로그인이 되어있어요!</>) ;
+	} else {
+		return (
+			<>
+				<Header />
+				<Form onSubmit={onSubmit}>
+					<FormGroup>
+						<Label for="id">아이디</Label>
+						<Input
+							id="id"
+							onChange={onChangeId}
+							placeholder="아이디를 입력하세요"
+							type="id"
+						/>
+						<CheckDetails isOk={isIdUnique}>
+							{isIdUnique ? '사용 가능한 아이디입니다.' : '이미 있는 아이디입니다.'}
+						</CheckDetails>
+						<Label for="password">비밀번호</Label>
+						<Input
+							id="password"
+							onChange={onChangePassword}
+							placeholder="비밀번호를 입력하세요"
+							type="password"
+						/>
+						<CheckDetails isOk={isPwOk}>
+							{isPwOk ? '사용 가능한 비밀번호입니다.' : '5글자 이상, 특수문자와 숫자 영문자를 모두 사용하세요.'}
+						</CheckDetails>
+						<Label for="nickname">별명</Label>
+						<Input
+							id="nickname"
+							onChange={onChangeNickname}
+							placeholder="별명을 입력하세요"
+							type="nickname"
+						/>
+						<CheckDetails isOk={isNicknameUnique}>
+							{isNicknameUnique ? '사용 가능한 별명입니다.' : '이미 있는 별명입니다.'}
+						</CheckDetails>
+					</FormGroup>
+					<Button color="primary">회원가입</Button>
+				</Form>
+			</>
+		);
+	}
 };
 
 export default JoinPage;
