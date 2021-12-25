@@ -6,7 +6,7 @@ import Title from '../common/Title';
 import AddTodo from './AddTodo';
 import TodoList from './TodoList';
 import { Button, ButtonGroup } from 'reactstrap';
-import AuthContext from '../contexts/AuthContext';
+import AuthContext from '../../contexts/AuthContext';
 
 const FlexWrapper = styled.div`
 	display: flex;
