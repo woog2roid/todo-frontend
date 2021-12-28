@@ -1,37 +1,27 @@
-import * as React from 'react';
-import axios from 'axios';
-import AuthContext from '../contexts/AuthContext';
-import MainContents from '../components/main/MainPage';
+import React from 'react';
+import Title from '../components/common/Title';
+import Header from '../components/common/Header';
+import AddTodo from '../components/main/AddTodo';
+import TodoList from '../components/main/TodoList';
+import { Box, Container } from '@mui/material'; 
 
-const Main = () => {
-	const { authState, authActions } = React.useContext(AuthContext);
-	
-	React.useEffect(() => {
-		const checkUserAuth = async () => {
-			await axios
-				.get(`${process.env.REACT_APP_SERVER}/user`, {
-					withCredentials: true,
-					credentials: 'include',
-				})
-				.then((res) => {
-					console.log(res.data.user);
-					authActions.setIsAuthed(true);
-					authActions.setUser({
-						id: res.data.user.id,
-						nickname: res.data.user.nickname,
-					});
-				})
-				.catch((err) => {
-					authActions.setIsAuthed(false);
-					authActions.setUser({id: null, nickname: null});
-				});
-		}
-		checkUserAuth();
-    }, []);
-	
+const Login = () => {
 	return (
-		<MainContents />
+		<Container components="main" maxWidth="md">
+			<Box
+				sx={{
+					marginTop: 2,
+					display: 'flex',
+					flexDirection: 'column',
+				}}
+            >
+				<Header />
+				<Title />
+				<AddTodo />
+				<TodoList />
+			</Box>
+		</Container>
 	);
 };
 
-export default Main;
+export default Login;

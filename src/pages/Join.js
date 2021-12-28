@@ -1,36 +1,23 @@
-import * as React from 'react';
-import axios from 'axios';
-import AuthContext from '../contexts/AuthContext';
-import MainContents from '../components/join/JoinPage';
+import React from 'react';
+import Title from '../components/common/Title';
+import JoinForm from '../components/join/Form';
+import { Box, Container } from '@mui/material'; 
 
 const Join = () => {
-	const { authState, authActions } = React.useContext(AuthContext);
-
-    React.useEffect(() => {
-		const checkUserAuth = async () => {
-			await axios
-				.get(`${process.env.REACT_APP_SERVER}/user`, {
-					withCredentials: true,
-					credentials: 'include',
-				})
-				.then((res) => {
-					console.log(res.data.user);
-					authActions.setIsAuthed(true);
-					authActions.setUser({
-						id: res.data.user.id,
-						nickname: res.data.user.nickname,
-					});
-				})
-				.catch((err) => {
-					authActions.setIsAuthed(false);
-					authActions.setUser({id: null, nickname: null});
-				});
-		}
-		checkUserAuth();
-    }, []);
-	
 	return (
-		<MainContents />
+		<Container components="main" maxWidth="xs">
+			<Box
+				sx={{
+					marginTop: 8,
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+				}}
+            >
+				<Title />
+				<JoinForm />
+			</Box>
+		</Container>
 	);
 };
 

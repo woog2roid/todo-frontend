@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input } from 'reactstrap';
+import axios from 'axios';
 
 const AddTodo = () => {
 	const [title, setTitle] = useState("");
@@ -7,14 +7,13 @@ const AddTodo = () => {
 	const onChange = (e) => {
 		setTitle(e.target.value);
 	}
-	const onSubmit = () => {
+	const onSubmit = async () => {
 		
 	}
 	
 	return (
-		<Form onSubmit={onSubmit}>
-			<Input onChange={onChange} bsSize="sm" placeholder="할 일을 입력하세요."/>
-		</Form>
+		<>
+		</>
 	);
 };
 
