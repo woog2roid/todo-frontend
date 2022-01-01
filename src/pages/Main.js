@@ -7,7 +7,7 @@ import { Box, Container } from '@mui/material';
 
 const Login = () => {
 	return (
-		<Container components="main" maxWidth="md">
+		<Container components="main" maxWidth="xs">
 			<Box
 				sx={{
 					marginTop: 2,

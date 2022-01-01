@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/system';
@@ -39,11 +39,6 @@ const Header = () => {
 	const onClickJoin = () => {
 		navigate('/join');
 	}
-	
-	//check authState for debug
-	useEffect(() => {
-		console.log(authState);
-	});
 	
 	return (
 		<>

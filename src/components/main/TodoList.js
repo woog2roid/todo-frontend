@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import AuthContext from '../../contexts/AuthContext';
+import TodoItem from './TodoItem';
 
 const TodoList = () => {
-	const [todoData, setTodoData] = useState();
+	const [todos, setTodos] = useState();
+	const { authState } = useContext(AuthContext);
 	
 	useEffect(() => {
 		const fetchTodoList = async () => {
@@ -12,19 +15,29 @@ const TodoList = () => {
 			})
 			.then(res => {
 				console.log(res);
-				setTodoData(res.data);
+				setTodos(res.data.todos);
 			})
 			.catch(err => {
 				console.log(err);
 			})
-		}
-		fetchTodoList();
-	}, []);
+		};
+		if(authState.isAuthed) fetchTodoList();
+		else console.log("vfdvfd");
+	}, [authState.isAuthed]);
 	
-    return (
-		<>
-		</>
-    );
+	if(!todos) {
+		return(<></>);
+	} else {
+		return (
+			<>
+				{
+					todos.reverse().map((todo, index) => {
+						return (<TodoItem key={index} todo={todo}/>);
+					})
+				}
+			</>
+		);
+	} 
 };
 
 export default TodoList;

@@ -18,12 +18,11 @@ const App = () => {
 					credentials: 'include',
 				})
 				.then((res) => {
-					console.log(res.data.user);
-					authActions.setIsAuthed(true);
 					authActions.setUser({
 						id: res.data.user.id,
 						nickname: res.data.user.nickname,
 					});
+					authActions.setIsAuthed(true);
 				})
 				.catch((err) => {
 					authActions.setIsAuthed(false);
