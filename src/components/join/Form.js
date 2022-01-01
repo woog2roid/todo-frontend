@@ -88,14 +88,18 @@ const Form = () => {
                     id: id,
                     password: password,
                     nickname: nickname,
-                })
-                .then((res) => {
+                },
+				{
+					withCredentials: true,
+					credentials: 'include',
+				})
+                .then(async (res) => {
                     alert('회원가입에 성공하였습니다.');
-                    authActions.setIsAuthed(true);
-                    authActions.setUser({
-                        id: res.data.user.id,
-                        nickname: res.data.user.nickname,
-                    });
+					await authActions.setIsAuthed(true);
+					await authActions.setUser({
+						id: res.data.user.id,
+						nickname: res.data.user.nickname,
+					});
                     navigate('/');
                 })
                 .catch((err) => {

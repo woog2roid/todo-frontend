@@ -43,7 +43,6 @@ const Form = () => {
                 )
                 .then(async (res) => {
 					alert('로그인에 성공하였습니다.');
-					console.log(res.data.user);
 					await authActions.setIsAuthed(true);
 					await authActions.setUser({
 						id: res.data.user.id,
