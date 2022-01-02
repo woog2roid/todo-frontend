@@ -4,8 +4,8 @@ import { TextField, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
 const AddTodo = ({ getUpdatedList }) => {
-    const [title, setTitle] = useState();
-	const [detail, setDetail] = useState();
+    const [title, setTitle] = useState("");
+	const [detail, setDetail] = useState("");
     const onChangeTitle = (e) => {
         setTitle(e.target.value);
     };
