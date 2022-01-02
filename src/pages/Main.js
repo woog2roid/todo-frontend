@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Title from '../components/common/Title';
 import Header from '../components/common/Header';
 import AddTodo from '../components/main/AddTodo';
 import TodoList from '../components/main/TodoList';
 import { Box, Container } from '@mui/material'; 
 
-const Login = () => {
+const Main = () => {
+	const [listDeps, setListDeps] = useState(0);
+	const getUpdatedList = () => {
+		setListDeps(listDeps+ 1);
+	};
+	
 	return (
 		<Container components="main" maxWidth="xs">
 			<Box
@@ -17,11 +22,13 @@ const Login = () => {
             >
 				<Header />
 				<Title />
-				<AddTodo />
-				<TodoList />
+				<AddTodo getUpdatedList={getUpdatedList}/>
+				<Box component="div" sx={{ width: '100%', height: 'calc(95vh - 191px)', overflow: 'auto' }}>
+					<TodoList listDeps={listDeps} getUpdatedList={getUpdatedList}/>
+				</Box>
 			</Box>
 		</Container>
 	);
 };
 
-export default Login;
+export default Main;

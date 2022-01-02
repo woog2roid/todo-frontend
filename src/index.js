@@ -4,7 +4,6 @@ import App from './App';
 import { AuthProvider } from './contexts/AuthContext';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { BrowserRouter } from 'react-router-dom';
-import './index.css';
 
 ReactDOM.render(
 	<ThemeProvider theme={createTheme()}>

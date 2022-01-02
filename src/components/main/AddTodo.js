@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { styled } from '@mui/system';
 import { TextField, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
-const AddTodo = () => {
-	const navigate = useNavigate();
-	
+const AddTodo = ({ getUpdatedList }) => {
     const [title, setTitle] = useState();
 	const [detail, setDetail] = useState();
     const onChangeTitle = (e) => {
@@ -26,11 +22,13 @@ const AddTodo = () => {
 					withCredentials: true,
 					credentials: 'include',
 				}).then((res) => {
-					navigate(0);
+					getUpdatedList();
 				}).catch((err) => {
 					console.log(err);
 					alert('서버와의 통신 오류가 발생했습니다.');
 			});
+		setTitle("");
+		setDetail("");
 	};
 
     return (
@@ -41,7 +39,8 @@ const AddTodo = () => {
 				variant="standard"
 				margin="dense"
 				onChange={onChangeTitle}
-				fullWidth="true"
+				value={title}
+				fullWidth
 			/>
 			<TextField
 				label="설명을 입력하세요."
@@ -49,6 +48,7 @@ const AddTodo = () => {
 				sx={{ mt: 1, mr: "8px", mb: 1, width: "calc(100% - 80px)"}}
 				size="small"
 				onChange={onChangeDetail}
+				value={detail}
 			/>
 			<Button type="submit" variant="contained" sx={{ mt: 1, mb: 1, ml: "8px"}}>
 				<AddIcon />
