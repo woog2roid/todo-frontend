@@ -1,17 +1,20 @@
 import React, { useContext } from 'react';
 import AuthContext from '../contexts/AuthContext';
-import AlreadyAuthed from '../components/common/AlreadyAuthed';
+import NotAuthed from '../components/common/NotAuthed';
 import Title from '../components/common/Title';
-import JoinForm from '../components/join/Form';
+import Header from '../components/common/Header';
+import Todo from '../components/todo/Todo';
+import AddComment from '../components/todo/AddComment';
+import CommentList from '../components/todo/CommentList';
 import { Box, Container } from '@mui/material'; 
 
-const Join = () => {
+const Main = () => {
 	const { authState } = useContext(AuthContext);
 	
-	if(authState.isAuthed) {
+	if(!authState.isAuthed) {
 		return (
 			<Container components="main" maxWidth="xs" sx={{mt: "calc((100vh - 100.5px)*0.4)"}}>
-				<AlreadyAuthed />
+				<NotAuthed />
 			</Container>
 		);
 	} else {
@@ -19,18 +22,20 @@ const Join = () => {
 			<Container components="main" maxWidth="xs">
 				<Box
 					sx={{
-						marginTop: 8,
+						marginTop: 2,
 						display: 'flex',
 						flexDirection: 'column',
-						alignItems: 'center',
 					}}
 				>
+					<Header />
 					<Title />
-					<JoinForm />
+					<Todo />
+					<AddComment />
+					<CommentList />
 				</Box>
 			</Container>
 		);
 	}
 };
 
-export default Join;
+export default Main;

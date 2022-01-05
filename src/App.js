@@ -5,6 +5,8 @@ import { Routes, Route } from 'react-router-dom';
 import Main from './pages/Main';
 import Login from './pages/Login';
 import Join from './pages/Join';
+import Todo from './pages/Todo';
+import NotFound from './pages/NotFound';
 
 const App = () => {
 	const { authActions } = useContext(AuthContext);
@@ -36,7 +38,9 @@ const App = () => {
 		<Routes>
 			<Route path='/' element={<Main/>} />
 			<Route path='/login' element={<Login/>} />
-			<Route path='join' element={<Join/>} />
+			<Route path='/join' element={<Join/>} />
+			<Route path='/todo/:id' element={<Todo/>} />
+			<Route path='/*' element={<NotFound/>} />
 		</Routes>
 	);
 }

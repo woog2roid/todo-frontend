@@ -3,23 +3,16 @@ import { styled } from '@mui/system';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../contexts/AuthContext';
-import {
-    Alert,
-    Button,
-    TextField,
-    Link,
-    Grid,
-    Box,
-} from '@mui/material';
+import { Button, TextField, Link, Grid, Box } from '@mui/material';
 
 const CheckDetails = styled('div')((props) => ({
     fontSize: '12px',
-	marginLeft: '5%',
+    marginLeft: '5%',
     color: props.isOk ? 'black' : 'red',
 }));
 
 const Form = () => {
-    const { authState, authActions } = useContext(AuthContext);
+    const { authActions } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const [id, setId] = useState('');
@@ -84,22 +77,25 @@ const Form = () => {
         else {
             console.log('회원가입 요청');
             await axios
-                .post(`${process.env.REACT_APP_SERVER}/auth/join`, {
-                    id: id,
-                    password: password,
-                    nickname: nickname,
-                },
-				{
-					withCredentials: true,
-					credentials: 'include',
-				})
+                .post(
+                    `${process.env.REACT_APP_SERVER}/auth/join`,
+                    {
+                        id: id,
+                        password: password,
+                        nickname: nickname,
+                    },
+                    {
+                        withCredentials: true,
+                        credentials: 'include',
+                    }
+                )
                 .then(async (res) => {
                     alert('회원가입에 성공하였습니다.');
-					await authActions.setIsAuthed(true);
-					await authActions.setUser({
-						id: res.data.user.id,
-						nickname: res.data.user.nickname,
-					});
+                    await authActions.setIsAuthed(true);
+                    await authActions.setUser({
+                        id: res.data.user.id,
+                        nickname: res.data.user.nickname,
+                    });
                     navigate('/');
                 })
                 .catch((err) => {
@@ -108,80 +104,58 @@ const Form = () => {
         }
     };
 
-    if (authState.isAuthed === true) {
-        return (
-            <Box component="main" maxWidth="xs">
-                <Alert severity="error">이미 로그인 하셨습니다.</Alert>
-                <Button
-                    onClick={() => {
-                        navigate(-1);
-                    }}
-                    fullWidth
-                    variant="contained"
-                    color="error"
-                >
-                    뒤로 가기
-                </Button>
-            </Box>
-        );
-    } else {
-		return (
-			<Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
-				<Grid container spacing={2}>
-					<Grid item xs={12}>
-						<TextField
-							required
-							fullWidth
-							label="아이디를 입력하세요"
-							onChange={onChangeId}
-						/>
-					</Grid>
-					<CheckDetails isOk={isIdUnique}>
-						{isIdUnique
-							? '사용 가능한 아이디입니다.'
-							: '이미 있는 아이디입니다.'}
-					</CheckDetails>
-					<Grid item xs={12}>
-						<TextField
-							required
-							fullWidth
-							label="비밀번호를 입력하세요"
-							type="password"
-							onChange={onChangePassword}
-						/>
-					</Grid>
-					<CheckDetails isOk={isPwOk}>
-						{isPwOk
-							? '사용 가능한 비밀번호입니다.'
-							: '5글자 이상, 특수문자와 숫자 영문자를 모두 사용하세요.'}
-					</CheckDetails>
-					<Grid item xs={12}>
-						<TextField
-							required
-							fullWidth
-							label="별명을 입력하세요"
-							onChange={onChangeNickname}
-						/>
-					</Grid>
-					<CheckDetails isOk={isNicknameUnique}>
-						{isNicknameUnique
-							? '사용 가능한 별명입니다.'
-							: '이미 있는 별명입니다.'}
-					</CheckDetails>
-				</Grid>
-				<Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-					회원가입
-				</Button>
-				<Grid container>
-					<Grid item>
-						<Link onClick={()=>navigate('/login')} variant="body2">
-							이미 계정이 있으신가요?
-						</Link>
-					</Grid>
-				</Grid>
-			</Box>
-        );
-    }
+    return (
+        <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <TextField
+                        required
+                        fullWidth
+                        label="아이디를 입력하세요"
+                        onChange={onChangeId}
+                    />
+                </Grid>
+                <CheckDetails isOk={isIdUnique}>
+                    {isIdUnique ? '사용 가능한 아이디입니다.' : '이미 있는 아이디입니다.'}
+                </CheckDetails>
+                <Grid item xs={12}>
+                    <TextField
+                        required
+                        fullWidth
+                        label="비밀번호를 입력하세요"
+                        type="password"
+                        onChange={onChangePassword}
+                    />
+                </Grid>
+                <CheckDetails isOk={isPwOk}>
+                    {isPwOk
+                        ? '사용 가능한 비밀번호입니다.'
+                        : '5글자 이상, 특수문자와 숫자 영문자를 모두 사용하세요.'}
+                </CheckDetails>
+                <Grid item xs={12}>
+                    <TextField
+                        required
+                        fullWidth
+                        label="별명을 입력하세요"
+                        onChange={onChangeNickname}
+                    />
+                </Grid>
+                <CheckDetails isOk={isNicknameUnique}>
+                    {isNicknameUnique ? '사용 가능한 별명입니다.' : '이미 있는 별명입니다.'}
+                </CheckDetails>
+            </Grid>
+            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                회원가입
+            </Button>
+            <Grid container>
+                <Grid item>
+                    <Link onClick={() => navigate('/login')} variant="body2">
+                        이미 계정이 있으신가요?
+                    </Link>
+                </Grid>
+            </Grid>
+        </Box>
+    );
 };
 
 export default Form;

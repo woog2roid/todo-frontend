@@ -30,8 +30,9 @@ const Header = () => {
 		await axios.post(`${process.env.REACT_APP_SERVER}/auth/logout`, {}, {
 			withCredentials: true,
 			credentials: 'include',
-		})
-		navigate(0);
+		});
+		await navigate('/');
+		await navigate(0);
 	}
 	const onClickLogin = () => {
 		navigate('/login');
