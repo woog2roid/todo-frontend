@@ -15,7 +15,8 @@ const Main = () => {
 		<Container components="main" maxWidth="xs">
 			<Box
 				sx={{
-					marginTop: 2,
+					mt: 2,
+					mb: 2,
 					display: 'flex',
 					flexDirection: 'column',
 				}}
@@ -23,7 +24,7 @@ const Main = () => {
 				<Header />
 				<Title />
 				<AddTodo getUpdatedList={getUpdatedList}/>
-				<Box component="div" sx={{ width: '100%', height: 'calc(95vh - 191px)', overflow: 'auto' }}>
+				<Box component="div" sx={{ width: '100%', height: 'calc(98vh - 195px)', overflow: 'auto' }}>
 					<TodoList listDeps={listDeps} getUpdatedList={getUpdatedList}/>
 				</Box>
 			</Box>

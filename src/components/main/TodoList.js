@@ -21,8 +21,7 @@ const TodoList = ({ listDeps, getUpdatedList }) => {
 					console.log(err);
 				});
 		};
-		if (authState.isAuthed) fetchTodoList();
-		else console.log('vfdvfd');
+		if(authState.isAuthed) fetchTodoList();
 	}, [authState.isAuthed, listDeps]);
 
 	if (!todos) {
@@ -30,22 +29,24 @@ const TodoList = ({ listDeps, getUpdatedList }) => {
 	} else {
 		return (
 			<>
-				{todos
-					.filter((data) => {
+				{
+					todos.filter((data) => {
 						return data.isDone === false;
 					})
 					.reverse()
 					.map((todo) => {
 						return <TodoItem key={todo.id} todo={todo} getUpdatedList={getUpdatedList} />;
-					})}
-				{todos
-					.filter((data) => {
+					})
+				}
+				{
+					todos.filter((data) => {
 						return data.isDone === true;
 					})
 					.reverse()
 					.map((todo) => {
 						return <TodoItem key={todo.id} todo={todo} getUpdatedList={getUpdatedList} />;
-					})}
+					})
+				}
 			</>
 		);
 	}

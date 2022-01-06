@@ -35,12 +35,12 @@ const TodoItem = ({todo, getUpdatedList}) => {
 					alert('서버와의 통신 오류가 발생했습니다.');
 			});
 	};
-	const onClickComment = () => {
+	const onClickMore = () => {
 		navigate(`/todo/${id}`);
 	};
 	
     return (
-		<Card variant="outlined" sx={{ width: '98%' }}>
+		<Card variant="outlined" sx={{ width: '98%', boxShadow: 1 }}>
 			<CardContent>
 				<Typography sx={{ fontSize: 18, fontWeight: "bold", margin: 0 }}>
 					{title}
@@ -54,7 +54,7 @@ const TodoItem = ({todo, getUpdatedList}) => {
 						</Typography>
 					: ""
 				}
-				<Link sx={{ fontSize: 13, color: (theme) => theme.palette.primary.main }}  onClick={onClickComment}>
+				<Link sx={{ fontSize: 13, color: 'primary.main' }}  onClick={onClickMore}>
 					더 보기
 				</Link>
 			</CardContent>
