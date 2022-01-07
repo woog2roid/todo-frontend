@@ -1,25 +1,20 @@
 import React from 'react';
-import { styled } from '@mui/system';
+import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
-const Text = styled('div')(({theme}) => ({
-	fontSize: '25px',
-	fontWeight: 'bold',
-	textAlign: 'center',
-	color: theme.palette.primary.main,
-}));
 
 const Title = () => {
 	const navigate = useNavigate();
-	
-	const onClick = () => {
+	const goHome = () => {
 		navigate('/');
 	};
 	
 	return (
-		<Text onClick={onClick}>
+		<Typography 
+			onClick={goHome}
+			sx={{ fontSize: '25px', fontWeight: 'bold', textAlign: 'center', color: 'primary.main'}}
+		>
 			투두리스트
-		</Text>
+		</Typography>
 	);
 };
 

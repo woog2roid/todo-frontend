@@ -5,17 +5,10 @@ import { styled } from '@mui/system';
 import AuthContext from '../../contexts/AuthContext';
 import { Typography } from '@mui/material';
 
-const FlexWrapper = styled('div')({
+const HeaderWrapper = styled('div')({
 	display: 'flex',
+	justifyContent: 'space-between',
 });
-const UserHeaderWrapper = styled(FlexWrapper)(({theme}) =>({
-	justifyContent: 'space-between',
-	color: theme.palette.error.main,
-}));
-const VisitorHeaderWrapper = styled(FlexWrapper)(({theme}) => ({
-	justifyContent: 'space-between',
-	color: theme.palette.primary.main,
-}));
 const HeaderDetails = styled(Typography)({
 	fontSize: '12px',
 	fontWeight: 'bold',
@@ -26,7 +19,13 @@ const Header = () => {
 	const { authState } = useContext(AuthContext);
 	const navigate = useNavigate();
 	
-	const onClickLogout = async () => {
+	const goLoginPage = () => {
+		navigate('/login');
+	}
+	const goJoinPage = () => {
+		navigate('/join');
+	}
+	const logout = async () => {
 		await axios.post(`${process.env.REACT_APP_SERVER}/auth/logout`, {}, {
 			withCredentials: true,
 			credentials: 'include',
@@ -34,25 +33,19 @@ const Header = () => {
 		await navigate('/');
 		await navigate(0);
 	}
-	const onClickLogin = () => {
-		navigate('/login');
-	}
-	const onClickJoin = () => {
-		navigate('/join');
-	}
 	
 	return (
 		<>
 			{
 				authState.isAuthed === true ?
-				<UserHeaderWrapper>
-					<HeaderDetails onClick={onClickLogout} variant="subtitle2" >로그아웃</HeaderDetails> 
+				<HeaderWrapper>
+					<HeaderDetails onClick={logout} variant="subtitle2" color='error.main'>로그아웃</HeaderDetails> 
 					<HeaderDetails color="black">{authState.user.nickname}님 환영합니다!</HeaderDetails>
-				</UserHeaderWrapper>:
-				<VisitorHeaderWrapper>
-					<HeaderDetails onClick={onClickLogin}>로그인</HeaderDetails>
-					<HeaderDetails onClick={onClickJoin}>회원가입</HeaderDetails>
-				</VisitorHeaderWrapper>
+				</HeaderWrapper>:
+				<HeaderWrapper>
+					<HeaderDetails onClick={goLoginPage} color='primary.main'>로그인</HeaderDetails>
+					<HeaderDetails onClick={goJoinPage} color='primary.main'>회원가입</HeaderDetails>
+				</HeaderWrapper>
 			}
 		</>
 	);

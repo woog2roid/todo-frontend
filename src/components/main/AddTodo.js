@@ -13,7 +13,7 @@ const AddTodo = ({ getUpdatedList }) => {
 		setDetail(e.target.value);
 	};
 
-	const onSubmit = async (e) => {
+	const addTodo = async (e) => {
 		e.preventDefault();
 		await axios.post(`${process.env.REACT_APP_SERVER}/todo`,{
 				title,
@@ -32,7 +32,7 @@ const AddTodo = ({ getUpdatedList }) => {
 	};
 
     return (
-		<form onSubmit={onSubmit}>
+		<form onSubmit={addTodo}>
 			<TextField
 				label="할 일을 입력하세요."
 				required

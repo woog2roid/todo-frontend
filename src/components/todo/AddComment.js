@@ -11,7 +11,7 @@ const AddComment = ({ getUpdatedList }) => {
 		setComment(e.target.value);
 	};
 	
-	const onSubmit = async (e) => {
+	const addComment = async (e) => {
 		e.preventDefault();
 		await axios.post(`${process.env.REACT_APP_SERVER}/comment`,{
 				comment,
@@ -29,7 +29,7 @@ const AddComment = ({ getUpdatedList }) => {
 	};
 	
 	return (
-		<form onSubmit={onSubmit}>
+		<form onSubmit={addComment}>
 			<TextField
 				label="추가사항을 입력하세요."
 				variant="outlined"

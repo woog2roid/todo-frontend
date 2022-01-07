@@ -10,7 +10,7 @@ const Todo = () => {
 	const { authState } = useContext(AuthContext);
 	
 	useEffect(() => {
-		const fetchTodo = async () => {
+		const getTodo = async () => {
 			await axios
 				.get(`${process.env.REACT_APP_SERVER}/todo/${todoId}`, {
 					withCredentials: true,
@@ -24,7 +24,7 @@ const Todo = () => {
 					console.log(err);
 				});
 		};
-		if (authState.isAuthed) fetchTodo();
+		if (authState.isAuthed) getTodo();
 	}, [authState.isAuthed]);
 
 	if (!todo) {

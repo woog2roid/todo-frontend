@@ -4,11 +4,11 @@ import AuthContext from '../../contexts/AuthContext';
 import TodoItem from './TodoItem';
 
 const TodoList = ({ listDeps, getUpdatedList }) => {
-	const [todos, setTodos] = useState();
 	const { authState } = useContext(AuthContext);
+	const [todos, setTodos] = useState();
 
 	useEffect(() => {
-		const fetchTodoList = async () => {
+		const getTodos = async () => {
 			await axios
 				.get(`${process.env.REACT_APP_SERVER}/todo`, {
 					withCredentials: true,
@@ -21,7 +21,7 @@ const TodoList = ({ listDeps, getUpdatedList }) => {
 					console.log(err);
 				});
 		};
-		if(authState.isAuthed) fetchTodoList();
+		if(authState.isAuthed) getTodos();
 	}, [authState.isAuthed, listDeps]);
 
 	if (!todos) {

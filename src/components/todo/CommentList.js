@@ -11,7 +11,7 @@ const CommentList = ({ listDeps, getUpdatedList }) => {
 	const { id:todoId } = useParams();
 
 	useEffect(() => {
-		const fetchCommentList = async () => {
+		const getComments = async () => {
 			await axios
 				.get(`${process.env.REACT_APP_SERVER}/comment`, {
 					withCredentials: true,
@@ -27,7 +27,7 @@ const CommentList = ({ listDeps, getUpdatedList }) => {
 					console.log(err);
 				});
 		};
-		if(authState.isAuthed) fetchCommentList();
+		if(authState.isAuthed) getComments();
 	}, [listDeps]);
 	
 	if(!comments) {
