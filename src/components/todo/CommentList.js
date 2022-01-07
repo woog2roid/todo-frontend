@@ -24,7 +24,7 @@ const CommentList = ({ listDeps, getUpdatedList }) => {
 					setComments(res.data.comments);
 				})
 				.catch((err) => {
-					console.log(err);
+					alert('서버와의 통신 오류가 발생했습니다.');
 				});
 		};
 		if(authState.isAuthed) getComments();
@@ -36,8 +36,8 @@ const CommentList = ({ listDeps, getUpdatedList }) => {
 		return (
 			<List>
 				{
-					comments.reverse().map((comment) => {
-						return <CommentItem data={comment} getUpdatedList={getUpdatedList}/>;
+					comments.map((comment) => {
+						return <CommentItem key={comment.id} data={comment} getUpdatedList={getUpdatedList}/>;
 					})
 				}
 			</List>

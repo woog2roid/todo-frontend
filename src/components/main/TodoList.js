@@ -18,7 +18,7 @@ const TodoList = ({ listDeps, getUpdatedList }) => {
 					setTodos(res.data.todos);
 				})
 				.catch((err) => {
-					console.log(err);
+					alert('서버와의 통신 오류가 발생했습니다.');
 				});
 		};
 		if(authState.isAuthed) getTodos();

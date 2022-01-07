@@ -41,7 +41,7 @@ const Main = () => {
 						sx={{
 							mt: '3px',
 							width: '98%',
-							height: 'calc(98vh - 228px)',
+							height: 'calc(98vh - 235px)',
 							overflow: 'auto',
 						}}
 					>

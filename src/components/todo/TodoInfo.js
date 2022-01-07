@@ -17,11 +17,10 @@ const Todo = () => {
 					credentials: 'include',
 				})
 				.then((res) => {
-					console.log(res.data);
 					setTodo(res.data.todo);
 				})
 				.catch((err) => {
-					console.log(err);
+					alert('서버와의 통신 오류가 발생했습니다.');
 				});
 		};
 		if (authState.isAuthed) getTodo();

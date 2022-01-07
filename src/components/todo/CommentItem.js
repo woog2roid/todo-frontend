@@ -13,7 +13,6 @@ const CommentItem = ({ data, getUpdatedList }) => {
 				}).then((res) => {
 					getUpdatedList();
 				}).catch((err) => {
-					console.log(err);
 					alert('서버와의 통신 오류가 발생했습니다.');
 			});
 	};

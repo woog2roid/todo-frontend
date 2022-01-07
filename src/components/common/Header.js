@@ -18,37 +18,49 @@ const HeaderDetails = styled(Typography)({
 const Header = () => {
 	const { authState } = useContext(AuthContext);
 	const navigate = useNavigate();
-	
+
 	const goLoginPage = () => {
 		navigate('/login');
-	}
+	};
 	const goJoinPage = () => {
 		navigate('/join');
-	}
+	};
 	const logout = async () => {
-		await axios.post(`${process.env.REACT_APP_SERVER}/auth/logout`, {}, {
-			withCredentials: true,
-			credentials: 'include',
-		});
+		await axios.post(
+			`${process.env.REACT_APP_SERVER}/auth/logout`,
+			{},
+			{
+				withCredentials: true,
+				credentials: 'include',
+			}
+		);
 		await navigate('/');
 		await navigate(0);
-	}
+	};
 	
 	return (
 		<>
-			{
-				authState.isAuthed === true ?
+			{authState.isAuthed === true ? (
 				<HeaderWrapper>
-					<HeaderDetails onClick={logout} variant="subtitle2" color='error.main'>로그아웃</HeaderDetails> 
-					<HeaderDetails color="black">{authState.user.nickname}님 환영합니다!</HeaderDetails>
-				</HeaderWrapper>:
-				<HeaderWrapper>
-					<HeaderDetails onClick={goLoginPage} color='primary.main'>로그인</HeaderDetails>
-					<HeaderDetails onClick={goJoinPage} color='primary.main'>회원가입</HeaderDetails>
+					<HeaderDetails onClick={logout} variant="subtitle2" color="error.main">
+						로그아웃
+					</HeaderDetails>
+					<HeaderDetails color="black">
+						{authState.user.nickname}님 환영합니다!
+					</HeaderDetails>
 				</HeaderWrapper>
-			}
+			) : (
+				<HeaderWrapper>
+					<HeaderDetails onClick={goLoginPage} color="primary.main">
+						로그인
+					</HeaderDetails>
+					<HeaderDetails onClick={goJoinPage} color="primary.main">
+						회원가입
+					</HeaderDetails>
+				</HeaderWrapper>
+			)}
 		</>
 	);
 };
-
+	
 export default Header;
