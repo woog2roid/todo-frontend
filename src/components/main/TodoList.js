@@ -5,7 +5,13 @@ import TodoItem from './TodoItem';
 
 const TodoList = ({ listDeps, getUpdatedList }) => {
 	const { authState } = useContext(AuthContext);
-	const [todos, setTodos] = useState();
+	const [todos, setTodos] = useState([
+		{
+			title: "회원가입/로그인하기",
+			detail: "로그인을 하지 않으면 대부분의 기능을 이용할 수 없어요",
+			isDone: false,
+		}
+	]);
 
 	useEffect(() => {
 		const getTodos = async () => {

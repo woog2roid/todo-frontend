@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import AuthContext from '../../contexts/AuthContext';
 import { Card, CardContent, Checkbox, Typography, Link } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const TodoItem = ({todo, getUpdatedList}) => {
+	const { authState } = useContext(AuthContext);
 	const navigate = useNavigate();
 	
 	const { id, title, detail, isDone } = todo;
@@ -12,28 +14,32 @@ const TodoItem = ({todo, getUpdatedList}) => {
 	const goTodoPage = () => {
 		navigate(`/todo/${id}`);
 	};
-	const updateTodoStatus = async () => {
-		await axios.patch(`${process.env.REACT_APP_SERVER}/todo`,{
-					id,
-					isDone: !isDone,
-				}, {
-					withCredentials: true,
-					credentials: 'include',
-				}).then((res) => {
-					getUpdatedList();
-				}).catch((err) => {
-					alert('서버와의 통신 오류가 발생했습니다.');
-			});
+	const toggleTodo = async () => {
+		if(authState.isAuthed) {
+			await axios.patch(`${process.env.REACT_APP_SERVER}/todo`,{
+						id,
+						isDone: !isDone,
+					}, {
+						withCredentials: true,
+						credentials: 'include',
+					}).then((res) => {
+						getUpdatedList();
+					}).catch((err) => {
+						alert('서버와의 통신 오류가 발생했습니다.');
+				});
+		}
 	};
 	const deleteTodo = async () => {
-		await axios.delete(`${process.env.REACT_APP_SERVER}/todo/${id}`,{
-					withCredentials: true,
-					credentials: 'include',
-				}).then((res) => {
-					getUpdatedList();
-				}).catch((err) => {
-					alert('서버와의 통신 오류가 발생했습니다.');
-			});
+		if(authState.isAuthed) {
+			await axios.delete(`${process.env.REACT_APP_SERVER}/todo/${id}`,{
+						withCredentials: true,
+						credentials: 'include',
+					}).then((res) => {
+						getUpdatedList();
+					}).catch((err) => {
+						alert('서버와의 통신 오류가 발생했습니다.');
+				});
+		}
 	};
 	
     return (
@@ -41,7 +47,7 @@ const TodoItem = ({todo, getUpdatedList}) => {
 			<CardContent>
 				<Typography sx={{ fontSize: 18, fontWeight: "bold", margin: 0 }}>
 					{title}
-					<Checkbox checked={isDone} onChange={updateTodoStatus} sx={{ margin: 0 }}/>
+					<Checkbox checked={isDone} onChange={toggleTodo} sx={{ margin: 0 }}/>
 					<DeleteIcon onClick={deleteTodo} sx={{mb: "-8px"}}/>
 				</Typography>
 				{

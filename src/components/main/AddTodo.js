@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import AuthContext from '../../contexts/AuthContext';
 import { TextField, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
 const AddTodo = ({ getUpdatedList }) => {
+	const { authState } = useContext(AuthContext);
     const [title, setTitle] = useState("");
 	const [detail, setDetail] = useState("");
     const onChangeTitle = (e) => {
@@ -15,17 +17,19 @@ const AddTodo = ({ getUpdatedList }) => {
 
 	const addTodo = async (e) => {
 		e.preventDefault();
-		await axios.post(`${process.env.REACT_APP_SERVER}/todo`,{
-				title,
-				detail,
-			}, {
-				withCredentials: true,
-				credentials: 'include',
-			}).then((res) => {
-				getUpdatedList();
-			}).catch((err) => {
-				alert('서버와의 통신 오류가 발생했습니다.');
-			});
+		if(authState.isAuthed) {
+			await axios.post(`${process.env.REACT_APP_SERVER}/todo`,{
+					title,
+					detail,
+				}, {
+					withCredentials: true,
+					credentials: 'include',
+				}).then((res) => {
+					getUpdatedList();
+				}).catch((err) => {
+					alert('서버와의 통신 오류가 발생했습니다.');
+				});
+		}
 		setTitle("");
 		setDetail("");
 	};

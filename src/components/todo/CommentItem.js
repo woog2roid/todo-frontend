@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { ListItem, ListItemText, IconButton, Typography } from '@mui/material';
+import { ListItem, ListItemText, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const CommentItem = ({ data, getUpdatedList }) => {
