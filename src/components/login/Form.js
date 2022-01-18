@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import AuthContext from '../../contexts/AuthContext';
@@ -10,14 +10,14 @@ const Form = () => {
 
 	const [id, setId] = useState('');
 	const [password, setPassword] = useState('');
-	const onChangeId = (e) => {
+	const onChangeId = useCallback((e) => {
 		setId(e.target.value);
-	};
-	const onChangePassword = (e) => {
+	}, []);
+	const onChangePassword = useCallback((e) => {
 		setPassword(e.target.value);
-	};
+	}, []);
 
-	const onSubmit = async (e) => {
+	const onSubmit = useCallback(async (e) => {
 		e.preventDefault();
 		if (id === '' || password === '') alert('아이디와 비밀번호를 입력하세요');
 		else {
@@ -50,7 +50,7 @@ const Form = () => {
 						alert('서버와의 통신 오류가 발생했습니다.');
 				});
 		}
-	};
+	}, [id, password]);
 
 	return (
 		<Box component="form" onSubmit={onSubmit} noValidate sx={{ mt: 1 }}>

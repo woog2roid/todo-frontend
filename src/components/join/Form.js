@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { styled } from '@mui/system';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -23,15 +23,15 @@ const Form = () => {
 	const [isPwOk, setIsPwOk] = useState(false);
 	const [isNicknameUnique, setIsNicknameUnique] = useState(true);
 
-	const onChangeId = async (e) => {
+	const onChangeId = useCallback((e) => {
 		setId(e.target.value);
-	};
-	const onChangePassword = (e) => {
+	}, []);
+	const onChangePassword = useCallback((e) => {
 		setPassword(e.target.value);
-	};
-	const onChangeNickname = (e) => {
+	}, []);
+	const onChangeNickname = useCallback((e) => {
 		setNickname(e.target.value);
-	};
+	}, []);
 
 	//ID 중복 체크
 	useEffect(() => {
@@ -69,7 +69,7 @@ const Form = () => {
 	}, [nickname]);
 
 	//회원가입 요청
-	const onSubmit = async (e) => {
+	const onSubmit = useCallback(async (e) => {
 		e.preventDefault();
 		if (!isIdUnique) alert('아이디 중복을 확인해주십시오.');
 		else if (!isPwOk) alert('비밀번호를 확인해주십시오.');
@@ -100,7 +100,7 @@ const Form = () => {
 					alert('회원가입에 실패했습니다. 다시 시도해주세요.');
 				});
 		}
-	};
+	}, [isIdUnique, isPwOk, id, nickname]);
 
 	return (
 		<Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>

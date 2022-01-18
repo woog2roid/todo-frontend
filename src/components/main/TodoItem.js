@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import AuthContext from '../../contexts/AuthContext';
@@ -14,7 +14,7 @@ const TodoItem = ({todo, getUpdatedList}) => {
 	const goTodoPage = () => {
 		navigate(`/todo/${id}`);
 	};
-	const toggleTodo = async () => {
+	const toggleTodo = useCallback(async () => {
 		if(authState.isAuthed) {
 			await axios.patch(`${process.env.REACT_APP_SERVER}/todo`,{
 						id,
@@ -28,8 +28,8 @@ const TodoItem = ({todo, getUpdatedList}) => {
 						alert('서버와의 통신 오류가 발생했습니다.');
 				});
 		}
-	};
-	const deleteTodo = async () => {
+	}, [isDone]);
+	const deleteTodo = useCallback(async () => {
 		if(authState.isAuthed) {
 			await axios.delete(`${process.env.REACT_APP_SERVER}/todo/${id}`,{
 						withCredentials: true,
@@ -40,7 +40,7 @@ const TodoItem = ({todo, getUpdatedList}) => {
 						alert('서버와의 통신 오류가 발생했습니다.');
 				});
 		}
-	};
+	}, [id]);
 	
     return (
 		<Card variant="outlined" sx={{ width: '98%', boxShadow: 1 }}>
@@ -65,4 +65,10 @@ const TodoItem = ({todo, getUpdatedList}) => {
     );
 };
 
-export default TodoItem;
+const arePropsEqual = (prevProps, nextProps) => {
+	if(prevProps.todo.id !== nextProps.todo.id) return false;
+	else if(prevProps.todo.isDone !== nextProps.todo.isDone) return false;
+	else return true;
+};
+
+export default React.memo(TodoItem, arePropsEqual);

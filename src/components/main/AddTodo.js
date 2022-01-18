@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import axios from 'axios';
 import AuthContext from '../../contexts/AuthContext';
 import { TextField, Button } from '@mui/material';
@@ -8,14 +8,14 @@ const AddTodo = ({ getUpdatedList }) => {
 	const { authState } = useContext(AuthContext);
     const [title, setTitle] = useState("");
 	const [detail, setDetail] = useState("");
-    const onChangeTitle = (e) => {
+    const onChangeTitle = useCallback((e) => {
         setTitle(e.target.value);
-    };
-	const onChangeDetail = (e) => {
+    }, []);
+	const onChangeDetail = useCallback((e) => {
 		setDetail(e.target.value);
-	};
+	}, []);
 
-	const addTodo = async (e) => {
+	const addTodo = useCallback(async (e) => {
 		e.preventDefault();
 		if(authState.isAuthed) {
 			await axios.post(`${process.env.REACT_APP_SERVER}/todo`,{
@@ -32,7 +32,7 @@ const AddTodo = ({ getUpdatedList }) => {
 		}
 		setTitle("");
 		setDetail("");
-	};
+	}, [title, detail]);
 
     return (
 		<form onSubmit={addTodo}>

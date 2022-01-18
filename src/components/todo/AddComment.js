@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { TextField, Button } from '@mui/material';
@@ -7,11 +7,11 @@ import AddIcon from '@mui/icons-material/Add';
 const AddComment = ({ getUpdatedList }) => {
 	const { id:todoId } = useParams();
 	const [comment, setComment] = useState("");
-	const onChangeComment = (e) => {
+	const onChangeComment = useCallback((e) => {
 		setComment(e.target.value);
-	};
+	}, []);
 	
-	const addComment = async (e) => {
+	const addComment = useCallback(async (e) => {
 		e.preventDefault();
 		await axios.post(`${process.env.REACT_APP_SERVER}/comment`,{
 				comment,
@@ -25,7 +25,7 @@ const AddComment = ({ getUpdatedList }) => {
 				alert('서버와의 통신 오류가 발생했습니다.');
 			});
 		setComment("");
-	};
+	}, [comment, todoId]);
 	
 	return (
 		<form onSubmit={addComment}>

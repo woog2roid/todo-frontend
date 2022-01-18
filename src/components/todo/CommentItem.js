@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import axios from 'axios';
 import { ListItem, ListItemText, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const CommentItem = ({ data, getUpdatedList }) => {
 	const { id:commentId, comment } = data;
 	
-	const DeleteComment = async () => {
+	const DeleteComment = useCallback(async () => {
 		await axios.delete(`${process.env.REACT_APP_SERVER}/comment/${commentId}`,{
 					withCredentials: true,
 					credentials: 'include',
@@ -15,7 +15,7 @@ const CommentItem = ({ data, getUpdatedList }) => {
 				}).catch((err) => {
 					alert('서버와의 통신 오류가 발생했습니다.');
 			});
-	};
+	}, [commentId]);
 	
 	return (
 		<ListItem
@@ -32,4 +32,9 @@ const CommentItem = ({ data, getUpdatedList }) => {
 	);
 };
 
-export default CommentItem;
+const arePropsEqual = (prevProps, nextProps) => {
+	if(prevProps.data.id !== nextProps.data.id) return false;
+	else return true;
+}
+
+export default React.memo(CommentItem, arePropsEqual);
