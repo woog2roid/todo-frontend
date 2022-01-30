@@ -8,7 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 ReactDOM.render(
 	<ThemeProvider theme={createTheme()}>
 	<AuthProvider>
-		<BrowserRouter basename="/todo-frontend/">
+		<BrowserRouter basename="/">
 			<App />
 		</BrowserRouter>
 	</AuthProvider>
